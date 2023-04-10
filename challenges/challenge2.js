@@ -6,16 +6,23 @@
  * 1. Read over the code that follows. What will be printed to the console when
  *    it runs? Run the code using `node challenge2.js` and verify that your
  *    expectation was correct.
- * 
- * 
+ *    
+ *    I'm guessing the first output will be the result of the 'greet' function
+ *    and the second output will be the result of the 'uppercaser' function with 
+ *    the 'my_str' variable as the argument.
+ *    
  * 2. What happens if greet() fails? Make it fail by changing 'name' to a number
  *    instead of a string. What happens? Does uppercaser() still run?
- * 
+ *    
+ *    The 'greet' function will fail and the 'uppercaser' function will not run. 
+ *    The 'catch' function will run and print the error message from 'greet' function.
  * 
  * 3. What happens if greet() succeeds and uppercaser() fails? Modify your code
  *    to achieve this result by changing the values of 'name' and 'my_str' and
  *    run the code again.
- * 
+ *    
+ *    The 'greet' function will succeed and the 'uppercaser' function will fail.
+ *    The 'catch' function will run and print the error message from 'uppercaser' function.
  * 
  * 4. Write a method that takes a string as input and returns the input string
  *    with a space added between each character. E.g. 'foo' -> 'f o o'
@@ -31,20 +38,20 @@
  *******************************************************************************
  */
 
- /**
-  * Asynchronously returns a greeting for a specified name.
-  * @param name The name of the person to greet.
-  */
+/**
+ * Asynchronously returns a greeting for a specified name.
+ * @param name The name of the person to greet.
+ */
 function greet(name) {
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        if (typeof name === 'string') { 
-          resolve('Hello there, ' + name);
-        } else {
-          reject('Name must be a string!');
-        }
-      }, 1000);
-    });
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      if (typeof name === 'string') {
+        resolve('Hello there, ' + name);
+      } else {
+        reject('Name must be a string!');
+      }
+    }, 1000);
+  });
 }
 
 /**
@@ -52,28 +59,52 @@ function greet(name) {
  * @param {*} str The string to uppercase.
  */
 function uppercaser(str) {
-    return new Promise(function(resolve, reject) {
-        setTimeout(function() {
-        if (typeof str === 'string') {
-            resolve(str.toUpperCase());
-        } else {
-            reject('Argument to uppercaser must be string');
-        }
-        }, 1500);
-    });
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      if (typeof str === 'string') {
+        resolve(str.toUpperCase());
+      } else {
+        reject('Argument to uppercaser must be string');
+      }
+    }, 1500);
+  });
 }
 
-name = 'Ducky'
-my_str = 'Make School is Awesome!!!'
+/**
+ * Returns a spaced version of a string.
+ * @param {*} str The string to space.
+ */
+function spacer(str) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      if (typeof str === 'string') {
+        let spaced = '';
+        for (let i = 0; i < str.length; i++) {
+          spaced += str[i] + ' ';
+        }
+        resolve(spaced);
+      } else {
+        reject('Argument to spacer must be string');
+      }
+    }, 2000);
+  });
+}
+
+const name = "Diego"
+const my_str = "bar"
+const str = "foo"
 
 greet(name)
-    .then((greetResult) => {
-        console.log(greetResult)
-        return uppercaser(my_str);
-    })
-    .then((uppercaserResult) => {
-        console.log(uppercaserResult)
-    }).catch((err) => {
-        console.log('Received an error!')
-        console.log(err);
-    });
+  .then((greetResult) => {
+    console.log(greetResult)
+    return uppercaser(my_str);
+  })
+  .then((uppercaserResult) => {
+    console.log(uppercaserResult)
+    return spacer(str);
+  }).then((spacerResult) => {
+    console.log(spacerResult)
+  }).catch((err) => {
+    console.log('Received an error!')
+    console.log(err);
+  });
